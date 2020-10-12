@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    druid:
+      username: root
+      password: 123456
+      url: jdbc:mysql:///security?serverTimezone=UTC&useSSL=false
+  mvc:
+    view:
+      suffix: .jsp
+      prefix: /pages/
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.zhu.bootsecurity.bean
+logging:
+  level:
+    com.zhu.bootsecurity.bean: debug

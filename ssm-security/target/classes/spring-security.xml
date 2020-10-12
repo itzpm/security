@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <!--SpringSecurity配置-->
+
+
+    <!--security放行静态资源-->
+    <security:http pattern="/css/**" security="none"/>
+    <security:http pattern="/img/**" security="none"/>
+    <security:http pattern="/plugins/**" security="none"/>
+    <security:http pattern="/failer.jsp" security="none"/>
+
+    <!--
+        auto-config="true"表示自动加载spring-security配置文件
+        use-expressions="true"表示使用spring-security的el表达式
+    -->
+    <security:http auto-config="true" use-expressions="true">
+
+        <!--/login.jsp不需要权限就能访问,但是后续的过程还是要走过滤器-->
+        <security:intercept-url pattern="/login.jsp" access="permitAll()"/>
+
+        <!--配置拦截路径为/**   只允许角色为ROLE_USER的访问-->
+        <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+
+        <!--配置认证信息-->
+        <!--
+        login-page="/login.jsp"指定登录页
+        login-processing-url="/login" 需要跳转到security的处理器 前端路径也要改为/login post请求
+        default-target-url="/index.jsp"指定登录成功之后默认去的地址,比如我现在在订单页面没有登录然后登录成功了会跳转到订单页面,
+        如果你本来就在登录页面得话那么就会跳转到index
+        authentication-failure-url="/failer.jsp" 认证失败去的页面
+        username-parameter="username" password-parameter="password"指定form表单的参数
+        -->
+        <security:form-login
+                login-page="/login.jsp"
+                login-processing-url="/login"
+                default-target-url="/index.jsp"
+                authentication-failure-url="/failer.jsp"
+                username-parameter="username" password-parameter="password"/>
+
+        <!--配置登出信息-->
+        <!--
+        logout-url="/logout" 路径是系统指定了的
+        logout-success-url="/login.jsp" 登出成功的地址
+        -->
+        <security:logout logout-url="/logout" logout-success-url="/login.jsp"/>
+
+        <!--不处理csrf 一般不开启-->
+        <security:csrf disabled="true"/>
+
+        <!--
+        开启remember-me过滤器 并且设置过期时长7天
+        remember-me-parameter="remember-me"修改指定的remember-me参数为你给的
+        data-source-ref="dataSource"指定数据库存储cookie 这个数据库必须是security给你指定的
+        -->
+        <security:remember-me token-validity-seconds="#{60 * 60 * 24 * 7}" remember-me-parameter="remember-me"
+                              data-source-ref="dataSource"/>
+
+        <!--处理403权限不足异常  一般不用-->
+<!--        <security:access-denied-handler error-page="/403.jsp"/>-->
+    </security:http>
+
+    <!--默认就是这个id不写也可以-->
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <security:authentication-manager>
+        <!--user-service-ref="sysUserServiceImpl" userDetailsServer作为实体-->
+        <security:authentication-provider user-service-ref="userServiceImpl">
+            <!--如果上面的passwordEncoder在这里没有引用那么必须把 BCryptPasswordEncoder放在它前面声明,引用了随便放-->
+            <security:password-encoder ref="passwordEncoder"/>
+
+            <!--            在内存中模拟两个角色 对象-->
+            <!--            <security:user-service>-->
+            <!--                <security:user name="user" authorities="ROLE_USER" password="{noop}user"/>-->
+            <!--                <security:user name="admin" authorities="ROLE_ADMIN" password="{noop}admin"/>-->
+            <!--            </security:user-service>-->
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+
+</beans>

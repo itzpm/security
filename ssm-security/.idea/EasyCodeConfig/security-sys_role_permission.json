@@ -1,0 +1,27 @@
+{
+  "name" : "SysRolePermission",
+  "originTableName" : "sys_role_permission",
+  "comment" : null,
+  "fullColumn" : [ {
+    "name" : "rid",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "ktShortType" : "Int",
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "pid",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "ktShortType" : "Int",
+    "custom" : false,
+    "ext" : { }
+  } ],
+  "pkColumn" : null,
+  "otherColumn" : null,
+  "savePackageName" : "com.zhu",
+  "savePath" : "./src/main/java/com/zhu",
+  "saveModelName" : "ssm-security"
+}

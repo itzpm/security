@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd">
+
+    <context:component-scan base-package="com.zhu.controller"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--开启security的注解权限验证-->
+    <!--
+    这三个随便开启哪一个都可以
+    secured-annotations="enabled"   开启security的权限控制注解开关
+    pre-post-annotations="enabled"  开启spring指定的权限控制注解开关
+    jsr250-annotations="enabled"    开启java250注解支持
+
+    这个配置如果放到了父容器的话那么对应的注解也必须放到父容器对应的类
+    放到子容器得话那么对应的注解也必须放到子容器对应的类
+    -->
+    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"
+                                     jsr250-annotations="enabled"/>
+    <mvc:default-servlet-handler/>
+    <mvc:annotation-driven/>
+</beans>

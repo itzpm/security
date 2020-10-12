@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "rsa.path",
+      "type": "com.itheima.config.RsaKeyProperties",
+      "sourceType": "com.itheima.config.RsaKeyProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "rsa.path.pub-key-file",
+      "type": "java.lang.String",
+      "sourceType": "com.itheima.config.RsaKeyProperties"
+    },
+    {
+      "name": "rsa.path.public-key",
+      "type": "java.security.PublicKey",
+      "sourceType": "com.itheima.config.RsaKeyProperties"
+    }
+  ],
+  "hints": []
+}

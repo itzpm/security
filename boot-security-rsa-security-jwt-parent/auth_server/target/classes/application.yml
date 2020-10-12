@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: auto_server
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql:///security?serverTimezone=UTC&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  type-aliases-package: com.zhu.bean
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    com.zhu: debug
+rsa:
+  path:
+    pubKeyFile: F:\img\id_key_rsa.pub
+    priKeyFile: F:\img\id_key_rsa
